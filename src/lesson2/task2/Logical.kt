@@ -5,6 +5,8 @@ package lesson2.task2
 import lesson1.task1.sqr
 import lesson4.task1.abs
 import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -22,8 +24,12 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean =
-    ((number / 100) % 10 + number / 1000) == (number % 10 + (number / 10) % 10)
+    (abcd(number / 100) == abcd(number))
 
+fun abcd(number: Int): Int {
+    return number % 10 + number / 10 % 10
+
+}
 /**
  * Простая
  *
@@ -41,22 +47,17 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int
-    { return when {
-        month == 1 -> 31
-        month == 3 -> 31
-        month == 5 -> 31
-        month == 7 -> 31
-        month == 8 -> 31
-        month == 10 -> 31
-        month == 12 -> 31
+fun daysInMonth(month: Int, year: Int): Int {
+    return when {
+        month == 1 || month == 3 || month == 5 || month == 7 || month == 8 -> 31
+        month == 10 || month == 12 -> 31
         year % 4 != 0 && year % 100 == 0 && month == 2 -> 28
         year % 4 == 0 && year % 100 != 0 && month == 2 -> 29
         year % 400 == 0 && month == 2 -> 29
         year % 400 != 0 && month == 2 -> 28
         else -> 30
     }
-    }
+}
 
 /**
  * Средняя
@@ -80,4 +81,7 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-    a <= r && (b <= s || c <= s) || b <= r && (a <= s || c <= s) || c <= r && (b <= s || a <= s)
+    (min(c, min(a, b)) <= min(r, c) &&
+            (b <= max(r, s) && a <= max(r, s)
+                    || c <= max(r, s) && a <= max(r, s)
+                    || b <= max(r, s) && c <= max(r, s)))

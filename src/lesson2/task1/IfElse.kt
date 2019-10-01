@@ -6,6 +6,7 @@ import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -69,7 +70,7 @@ fun ageDescription(age: Int): String {
     return if (age % 100 in 10..20) "$age лет"
     else when {
         age % 10 == 1 -> "$age год"
-        (age % 10) in 2..4 -> "$age года"
+        age % 10 in 2..4 -> "$age года"
         else -> "$age лет"
     }
 }
@@ -87,10 +88,12 @@ fun timeForHalfWay(
     t3: Double, v3: Double
 ): Double {
     val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    val s1 = t1 * v1
+    val s2 = t2 * v2
     return when {
-        t1 * v1 > s -> s / v1
-        t1 * v1 + t2 * v2 > s -> (s - v1 * t1) / v2 + t1
-        else -> t1 + t2 + (s - v1 * t1 - v2 * t2) / v3
+        s1 > s -> s / v1
+        s1 + s2 > s -> (s - s1) / v2 + t1
+        else -> t1 + t2 + (s - s1 - s2) / v3
     }
 }
 
@@ -108,11 +111,10 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    return if ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) 3
-    else if ((kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 || kingY != rookY2)) 1
-    else if ((kingX == rookX2 || kingY == rookY2) && (kingX != rookX1 || kingY != rookY1)) 2
-    else 0
-
+    var c = 0
+    if (kingX == rookX1 || kingY == rookY1) c += 1
+    if (kingX == rookX2 || kingY == rookY2) c += 2
+    return c
 }
 
 /**
@@ -130,10 +132,10 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
-    return if ((kingX != rookX && kingY != rookY) && (abs(kingX - bishopX) != abs(kingY - bishopY))) 0
-    else if ((kingX == rookX || kingY == rookY) && (abs(kingX - bishopX) != abs(kingY - bishopY))) 1
-    else if (((kingX != rookX && kingY != rookY) && (abs(kingX - bishopX) == abs(kingY - bishopY)))) 2
-    else 3
+    var c = 0
+    if (kingX == rookX || kingY == rookY) c += 1
+    if (abs(kingX - bishopX) == abs(kingY - bishopY)) c += 2
+    return c
 }
 
 /**
@@ -165,12 +167,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
-
-        c in a..b && b <= d -> b - c
-        c in (a + 1) until d && d < b -> d - c
-        a in (c + 1) until b && b < d -> b - a
-        a in c..d && d <= d -> d - a
-        else -> -1
-    }
+    val minbd = min(b, d)
+    val maxac = max (a, c)
+    return if (c > b || a > d) -1
+    else minbd - maxac
 }
