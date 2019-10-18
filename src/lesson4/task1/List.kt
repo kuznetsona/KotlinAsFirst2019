@@ -3,6 +3,9 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.revert
+import kotlin.math.abs
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -115,14 +118,27 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var counter = 0
+    for (i in 0 until v.size) {
+        counter += v[i].pow(2.0).toInt()
+    }
+    return sqrt(counter.toDouble())
+}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    var counter = 0
+    if (list.isEmpty()) return 0.0
+    for (i in 0 until list.size) {
+        counter += list[i].toInt()
+    }
+    return (counter / list.size).toDouble()
+}
 
 /**
  * Средняя
@@ -132,7 +148,14 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    if (list.size == 0) return list
+    val mean = mean(list)
+    for (i in 0 until list.size) {
+        list[i] -= mean
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -141,7 +164,14 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int = TODO()
+fun times(a: List<Int>, b: List<Int>): Int {
+    var c = 0
+    for (i in 0 until a.size) {
+        c += a[i] * b[i]
+    }
+    return c
+
+}
 
 /**
  * Средняя
@@ -151,7 +181,15 @@ fun times(a: List<Int>, b: List<Int>): Int = TODO()
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int = TODO()
+fun polynom(p: List<Int>, x: Int): Int {
+    return if (p.isNotEmpty()) {
+        var px = p[0]
+        for (i in 1 until p.size) {
+            px += p[i] * (x.toDouble().pow(i)).toInt()
+        }
+        px
+    } else 0
+}
 
 /**
  * Средняя
@@ -163,7 +201,16 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    return if (list.size != 0) {
+        var counter = list[0]
+        for (i in 1 until list.size) {
+            counter += list[i]
+            list[i] = counter
+        }
+        list
+    } else list
+}
 
 /**
  * Средняя
@@ -172,7 +219,20 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    var n1 = n
+    for (i in 2..n1) {
+        if (n1 % i == 0) {
+            while (n1 % i == 0) {
+                list.add(i)
+                n1 /= i
+            }
+        }
+    }
+
+    return list
+}
 
 /**
  * Сложная
@@ -181,7 +241,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -190,7 +250,17 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    var n1 = n
+    while (n1 > base) {
+        list.add(n1 % base)
+        n1 /= base
+    }
+    list.add(n1)
+    list.reverse()
+    return list
+}
 
 /**
  * Сложная
@@ -203,7 +273,16 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val list = convert(n, base)
+    val a = "abcdefghijklmnopqrstuvwxyz"
+    var str = ""
+    for (i in 0 until list.size) {
+        if (list[i] > 9) str += a[list[i] - 10]
+        else str += list[i]
+    }
+    return str
+}
 
 /**
  * Средняя
@@ -212,7 +291,13 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var n = digits[digits.size - 1]
+    for (i in 0 until digits.size - 1) {
+        n += digits[i] * (base.toDouble().pow(digits.size - i - 1)).toInt()
+    }
+    return n
+}
 
 /**
  * Сложная
@@ -226,7 +311,15 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var c = 0
+    for (i in 0 until str.length) {
+        c += if (str[i].toInt() in 97..122) {
+            base.toDouble().pow(str.length - i - 1.toDouble()).toInt() * (str[i].toInt() - 87)
+        } else base.toDouble().pow(str.length - i - 1.toDouble()).toInt() * (str[i].toInt() - 48)
+    }
+    return c
+}
 
 /**
  * Сложная
@@ -236,7 +329,63 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var n1 = n
+    var str = ""
+    while (n1 >= 1000) {
+        str += "M"
+        n1 = abs(n1 - 1000)
+    }
+    if (n1 - 900 >= 0) {
+        str += "CM"
+        n1 -= 900
+    }
+    if (n1 - 500 >= 0) {
+        str += "D"
+        n1 -= 500
+    }
+    if (n1 - 400 >= 0) {
+        str += "CD"
+        n1 -= 400
+    }
+    while (n1 >= 100) {
+        str += "C"
+        n1 = abs(n1 - 100)
+    }
+    if (n1 - 90 >= 0) {
+        str += "XC"
+        n1 -= 90
+    }
+    if (n1 - 50 >= 0) {
+        str += "L"
+        n1 -= 50
+    }
+    if (n1 - 40 >= 0) {
+        str += "XL"
+        n1 -= 40
+    }
+    while (n1 >= 10) {
+        str += "X"
+        n1 = abs(n1 - 10)
+    }
+    if (n1 - 9 >= 0) {
+        str += "IX"
+        n1 -= 9
+    }
+    if (n1 - 5 >= 0) {
+        str += "V"
+        n1 -= 5
+    }
+    if (n1 - 4 >= 0) {
+        str += "IV"
+        n1 -= 4
+    }
+    while (n1 >= 1) {
+        str += "I"
+        n1 = abs(n1 - 1)
+    }
+    return str
+}
 
 /**
  * Очень сложная
@@ -245,4 +394,116 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var k = 0
+    var p = n
+    var str = ""
+    var number = n
+    do {
+        k++
+        number /= 10
+    } while (number != 0)
+
+    if (k > 3) {
+        str += russian0(n / 1000, k)
+
+        str += when {
+            n / 1000 % 10 == 1 -> " тысяча"
+            n / 1000 % 10 in 2..5 -> " тысячи"
+            else -> " тысяч"
+        }
+        p = n % 1000
+    }
+    str += russian0(p, 0)
+    str = str.trim()
+    return str
+}
+
+fun russian0(p: Int, k: Int): String {
+    var counter = 0
+    var p1 = p
+    var str = ""
+    do {
+        counter++
+        p1 /= 10
+    } while (p1 != 0)
+    if (counter == 3 && p / 100 != 0) {
+        str += russian100(p / 100)
+    }
+    if (p % 100 < 10 || p % 100 >= 20) {
+        if (counter >= 2 && p % 100 / 10 != 0) {
+            str += russian10(p % 100 / 10)
+        }
+        if (p % 10 != 0) {
+            str += if (k > 3) russian01(p % 10)
+            else russian1(p % 10)
+        }
+    } else str += russian1019(p % 100)
+    return str
+}
+
+fun russian100(p: Int): String {
+    var str = ""
+    str += when (p) {
+        1 -> " сто"
+        2 -> " двести"
+        3 -> " триста"
+        4 -> " четыреста"
+        else -> russian1(p) + "сот"
+    }
+    return str
+}
+
+fun russian10(p: Int): String {
+    var str = ""
+    str += when (p) {
+        2 -> " двадцать"
+        3 -> " тридцать"
+        4 -> " сорок"
+        9 -> " девяносто"
+        else -> russian1(p) + "десят"
+    }
+    return str
+}
+
+fun russian1(p: Int): String {
+    var str = ""
+    str += when (p) {
+        1 -> " один"
+        2 -> " два"
+        3 -> " три"
+        4 -> " четыре"
+        5 -> " пять"
+        6 -> " шесть"
+        7 -> " семь"
+        8 -> " восемь"
+        else -> " девять"
+    }
+    return str
+}
+
+fun russian1019(p: Int): String {
+    var str = ""
+    str += when (p) {
+        10 -> " десять"
+        11 -> " одиннадцать"
+        12 -> " двенадцать"
+        13 -> " тринадцать"
+        14 -> " четырнадцать"
+        15 -> " пятнадцать"
+        16 -> " шестнадцать"
+        17 -> " семнадцать"
+        18 -> " восемнадцать"
+        else -> " девятнадцать"
+    }
+    return str
+}
+fun russian01(p: Int): String {
+    var str = ""
+    str += when (p) {
+        1 -> " одна"
+        2 -> " две"
+        else -> russian1(p)
+    }
+    return str
+}

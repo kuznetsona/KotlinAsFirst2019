@@ -24,12 +24,9 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean =
-    (abcd(number / 100) == abcd(number))
+    (isNumberHappy2(number / 100) == isNumberHappy2(number))
 
-fun abcd(number: Int): Int {
-    return number % 10 + number / 10 % 10
-
-}
+fun isNumberHappy2(number: Int): Int = number % 10 + number / 10 % 10
 /**
  * Простая
  *
@@ -80,8 +77,10 @@ fun circleInside(
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-    (min(c, min(a, b)) <= min(r, c) &&
-            (b <= max(r, s) && a <= max(r, s)
-                    || c <= max(r, s) && a <= max(r, s)
-                    || b <= max(r, s) && c <= max(r, s)))
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val maxRS = max(r, s)
+    return minOf(c, a, b) <= min(r, c) &&
+            (b <= max(r, s) && a <= maxRS
+                    || c <= maxRS && a <= maxRS
+                    || b <= maxRS && c <= maxRS)
+}

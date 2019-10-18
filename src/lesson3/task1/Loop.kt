@@ -121,7 +121,7 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n / 2)
+    for (i in 2..sqrt(n.toDouble()).toInt())
         if (n % i == 0) return i
     return n
 
@@ -160,8 +160,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val m1 = sqrt(m.toDouble()).toInt()
     val n1 = sqrt(n.toDouble()).toInt()
-    return if (m1 < n1 || sqr(m1) == m || sqr(n1) == n) true
-    else return false
+    return (m1 < n1 || sqr(m1) == m || sqr(n1) == n)
 
 }
 
@@ -243,7 +242,7 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = (n / 2 == revert(n) / 2)
+fun isPalindrome(n: Int): Boolean = (n == revert(n))
 
 /**
  * Средняя
