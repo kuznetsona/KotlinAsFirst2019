@@ -76,18 +76,29 @@ fun dateStrToDigit(str: String): String? {
     var res = ""
     val element = list[0].toInt()
     if (list.size == 3 && element in 1..31) {
-        if (list[1] == "января") res = String.format("%02d", element) + ".01."
-        else if (list[1] == " февряля" && element <= 29) res = String.format("%02d", element) + ".02." + list[2]
-        else if (list[1] == "марта") res = String.format("%02d", element) + ".03." + list[2]
-        else if (list[1] == "апреля" && element <= 30) res = String.format("%02d", element) + ".04." + list[2]
-        else if (list[1] == "мая") res = String.format("%02d", element) + ".05." + list[2]
-        else if (list[1] == "июня" && element <= 30) res = String.format("%02d", element) + ".06." + list[2]
-        else if (list[1] == "июля") res = String.format("%02d", element) + ".07." + list[2]
-        else if (list[1] == "августа") res = String.format("%02d", element) + "08." + list[2]
-        else if (list[1] == "сентября" && element <= 30) res = String.format("%02d", element) + ".09." + list[2]
-        else if (list[1] == "октября") res = list[0] + ".10." + list[2]
-        else if (list[1] == "ноября" && element <= 30) res = list[0] + ".11." + list[2]
-        else if (list[1] == "декабря") res = list[0] + ".12." + list[2]
+        if (list[1] == "января") {
+            res = String.format("%02d", element) + ".01."
+        } else if (list[1] == " февряля" && element <= 29) {
+            res = String.format("%02d", element)+ ".02." + list[2]
+        } else if (list[1] == "марта") {
+            res = String.format("%02d", element) + ".03." + list[2]
+        } else if (list[1] == "апреля" && element <= 30) {
+            res = String.format("%02d", element) + ".04." + list[2]
+        } else if (list[1] == "мая") {
+            res = String.format("%02d", element) + ".05." + list[2]
+        } else if (list[1] == "июня" && element <= 30) {
+            res = String.format("%02d", element) + ".06." + list[2]
+        } else if (list[1] == "июля") {
+            res = String.format("%02d", element) + ".07." + list[2]
+        } else if (list[1] == "августа") {
+            res = String.format("%02d", element) + "08." + list[2]
+        } else if (list[1] == "сентября" && element <= 30) {
+            res = String.format("%02d", element) + ".09." + list[2]
+        } else if (list[1] == "октября") {
+            res = list[0] + ".10." + list[2]
+        } else if (list[1] == "ноября" && element <= 30) {
+            res = list[0] + ".11." + list[2]
+        } else if (list[1] == "декабря") res = list[0] + ".12." + list[2]
     } else return ""
     return res
 }
@@ -109,18 +120,42 @@ fun dateDigitToStr(digital: String): String {
         val element = list[0].toInt()
         if (list.size == 3 && list[0].toInt() in 1..31) {
             res = when {
-                list[1] =="01" -> String.format("%s", element) + " января " + list[2]
-                list[1] =="02" && element <= 28 -> String.format("%s", element) + " февраля " + list[2]
-                list[1] =="03" -> String.format("%s", element) + " марта " + list[2]
-                list[1] == "04" && element <= 30 -> String.format("%s", element) + " апреля " + list[2]
-                list[1] == "05" -> String.format("%s", element) + " мая " + list[2]
-                list[1] == "06" && element <= 30 -> String.format("%s", element) + " июня " + list[2]
-                list[1] == "07" -> String.format("%s", element) + " июля " + list[2]
-                list[1] == "08" -> String.format("%s", element) + " августа " + list[2]
-                list[1] == "09" && element <= 30 -> String.format("%s", element) + " сентября " + list[2]
-                list[1] == "10" -> String.format("%s", element) + " октября " + list[2]
-                list[1] == "11" && element <= 30 -> String.format("%s", element) + " ноября " + list[2]
-                list[1] == "12" -> String.format("%s", element) + " декабря " + list[2]
+                list[1] == "01" -> {
+                    String.format("%s", element) + " января " + list[2]
+                }
+                list[1] == "02" && element <= 28 -> {
+                    String.format("%s", element) + " февраля " + list[2]
+                }
+                list[1] == "03" -> {
+                    String.format("%s", element) + " марта " + list[2]
+                }
+                list[1] == "04" && element <= 30 -> {
+                    String.format("%s", element) + " апреля " + list[2]
+                }
+                list[1] == "05" -> {
+                    String.format("%s", element) + " мая " + list[2]
+                }
+                list[1] == "06" && element <= 30 -> {
+                    String.format("%s", element) + " июня " + list[2]
+                }
+                list[1] == "07" -> {
+                    String.format("%s", element) + " июля " + list[2]
+                }
+                list[1] == "08" -> {
+                    String.format("%s", element) + " августа " + list[2]
+                }
+                list[1] == "09" && element <= 30 -> {
+                    String.format("%s", element) + " сентября " + list[2]
+                }
+                list[1] == "10" -> {
+                    String.format("%s", element) + " октября " + list[2]
+                }
+                list[1] == "11" && element <= 30 -> {
+                    String.format("%s", element) + " ноября " + list[2]
+                }
+                list[1] == "12" -> {
+                    String.format("%s", element) + " декабря " + list[2]
+                }
                 else -> ""
             }
         } else res = ""
