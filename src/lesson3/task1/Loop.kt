@@ -143,10 +143,15 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    val min = min(m, n)
-    for (i in 2..min)
-        if (n % i == 0 && m % i == 0) return false
-    return true
+    var a = m
+    var b = n
+    while (a != b) {
+        when {
+            a < b -> b = (b - a)
+            else -> a = (a - b)
+        }
+    }
+    return b == 1
 }
 
 
@@ -224,9 +229,8 @@ fun revert(n: Int): Int {
     val c = digitNumber(n) - 1
     var n2 = n
     var n3 = 0
-    var n1: Int
     for (i in 0..c) {
-        n1 = n2 % 10
+        val n1 = n2 % 10
         n3 += n1 * 10.0.pow(c - i).toInt()
         n2 /= 10
     }
@@ -254,17 +258,13 @@ fun isPalindrome(n: Int): Boolean = (n == revert(n))
  */
 fun hasDifferentDigits(n: Int): Boolean {
     val c = digitNumber(n)
-    var a = 0
     var n1 = n
-    var n2: Int
-    for (i in 1..c) {
-        n2 = n1 % 10
-        if (n1 / 10 % 10 == n2)
-            a += 1
+    val n2 = n1 % 10
+    for (i in 1 until c) {
+        if (n1 % 10 != n2) break
         n1 /= 10
     }
-    if (a == c - 1 || a == c) return false
-    return true
+    return n1 != n2
 }
 
 /**
@@ -285,8 +285,7 @@ fun squareSequenceDigit(n: Int): Int {
         c += digitNumber(k)
         p += 1
     }
-    return if (c == n) k % 10
-    else k / 10.0.pow(c - n).toInt() % 10
+    return sequenceDigit(n, k, c)
 }
 
 /**
@@ -307,6 +306,9 @@ fun fibSequenceDigit(n: Int): Int {
         c += digitNumber(k)
         p += 1
     }
+    return sequenceDigit(n, k, c)
+}
+fun sequenceDigit(n: Int, k: Int, c: Int): Int {
     return if (c == n) k % 10
     else k / 10.0.pow(c - n).toInt() % 10
 }

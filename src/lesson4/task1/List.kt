@@ -132,12 +132,12 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    var counter = 0
+    var counter = 0.0
     if (list.isEmpty()) return 0.0
     for (i in 0 until list.size) {
-        counter += list[i].toInt()
+        counter += list[i]
     }
-    return (counter / list.size).toDouble()
+    return (counter / list.size)
 }
 
 /**
@@ -253,7 +253,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
 fun convert(n: Int, base: Int): List<Int> {
     val list = mutableListOf<Int>()
     var n1 = n
-    while (n1 > base) {
+    while (n1 >= base) {
         list.add(n1 % base)
         n1 /= base
     }
@@ -409,7 +409,7 @@ fun russian(n: Int): String {
 
         str += when {
             n / 1000 % 10 == 1 -> " тысяча"
-            n / 1000 % 10 in 2..5 -> " тысячи"
+            n / 1000 % 10 in 2..4 -> " тысячи"
             else -> " тысяч"
         }
         p = n % 1000

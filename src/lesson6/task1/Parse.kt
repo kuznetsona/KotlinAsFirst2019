@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import java.lang.Exception
+
 /**
  * Пример
  *
@@ -69,7 +71,26 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String? {
+    val list = str.split(" ")
+    var res = ""
+    val element = list[0].toInt()
+    if (list.size == 3 && element in 1..31) {
+        if (list[1] == "января") res = String.format("%02d", element) + ".01."
+        else if (list[1] == " февряля" && element <= 29) res = String.format("%02d", element) + ".02." + list[2]
+        else if (list[1] == "марта") res = String.format("%02d", element) + ".03." + list[2]
+        else if (list[1] == "апреля" && element <= 30) res = String.format("%02d", element) + ".04." + list[2]
+        else if (list[1] == "мая") res = String.format("%02d", element) + ".05." + list[2]
+        else if (list[1] == "июня" && element <= 30) res = String.format("%02d", element) + ".06." + list[2]
+        else if (list[1] == "июля") res = String.format("%02d", element) + ".07." + list[2]
+        else if (list[1] == "августа") res = String.format("%02d", element) + "08." + list[2]
+        else if (list[1] == "сентября" && element <= 30) res = String.format("%02d", element) + ".09." + list[2]
+        else if (list[1] == "октября") res = list[0] + ".10." + list[2]
+        else if (list[1] == "ноября" && element <= 30) res = list[0] + ".11." + list[2]
+        else if (list[1] == "декабря") res = list[0] + ".12." + list[2]
+    } else return ""
+    return res
+}
 
 /**
  * Средняя
@@ -81,7 +102,33 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val list = digital.split(".")
+    val res: String
+    try {
+        val element = list[0].toInt()
+        if (list.size == 3 && list[0].toInt() in 1..31) {
+            res = when {
+                list[1] =="01" -> String.format("%s", element) + " января " + list[2]
+                list[1] =="02" && element <= 28 -> String.format("%s", element) + " февраля " + list[2]
+                list[1] =="03" -> String.format("%s", element) + " марта " + list[2]
+                list[1] == "04" && element <= 30 -> String.format("%s", element) + " апреля " + list[2]
+                list[1] == "05" -> String.format("%s", element) + " мая " + list[2]
+                list[1] == "06" && element <= 30 -> String.format("%s", element) + " июня " + list[2]
+                list[1] == "07" -> String.format("%s", element) + " июля " + list[2]
+                list[1] == "08" -> String.format("%s", element) + " августа " + list[2]
+                list[1] == "09" && element <= 30 -> String.format("%s", element) + " сентября " + list[2]
+                list[1] == "10" -> String.format("%s", element) + " октября " + list[2]
+                list[1] == "11" && element <= 30 -> String.format("%s", element) + " ноября " + list[2]
+                list[1] == "12" -> String.format("%s", element) + " декабря " + list[2]
+                else -> ""
+            }
+        } else res = ""
+        return res
+    } catch (e: Exception) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -97,7 +144,20 @@ fun dateDigitToStr(digital: String): String = TODO()
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val list = phone.split("").toMutableList()
+    return try {
+        for (i in 0 until list.size) {
+            if (list[0] == "+") continue
+            if (list[i] == "-" || list[i] == "(" || list[i] == ")" || list[i] == " ") {
+                list.removeAt(i)
+            } else if (list[i].toInt() in 0..9) continue
+        }
+        list.joinToString(separator = "")
+    } catch (e: Exception) {
+        ""
+    }
+}
 
 /**
  * Средняя
@@ -109,7 +169,22 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val list = jumps.split(" ")
+    var max = 0
+    return try {
+        for (i in 0 until list.size) {
+            if (list[i] == "-" || list[i] == "%") continue
+            else if (list[i].toInt() > max) max = list[i].toInt()
+        }
+        if (max != 0) max
+        else -1
+    } catch (e: Exception) {
+        -1
+    }
+
+
+}
 
 /**
  * Сложная
@@ -133,7 +208,24 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int = TODO() /*
+    val list = expression.split(" ").toMutableList()
+    var sum = 0
+    try {
+        for (i in 0..list.size - 2) {
+            if (i % 2 == 0) {
+                if (list[i].toInt() in 0..9) {
+                    val res = list[i]
+                }
+            } else
+                if (list[i] == "+" || list[i] == "-") {
+                    if (list[i] == "+")
+
+                }
+        }
+    } catch (e: IllegalArgumentException) {
+        ""
+    } */
 
 /**
  * Сложная
@@ -208,4 +300,50 @@ fun fromRoman(roman: String): Int = TODO()
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
+    require(commands.matches(Regex("""[+\-\]\[\s><]*""")))
+    val list = mutableListOf<Int>()
+    var k = cells / 2
+    var l = 0
+    for (i in 0 until commands.length) {
+        if (commands[i] == '[') l += 1
+        else if (commands[i] == ']') l -= 1
+    }
+    if (l != 0) throw IllegalArgumentException()
+    for (i in 0 until cells) list.add(0)
+    var i = 0
+    var index = 0
+    while (i != commands.length && index != limit) {
+        if (k == -1 || k == list.size) throw IllegalStateException()
+        when (commands[i]) {
+            '+' -> list[k] += 1
+            '-' -> list[k] -= 1
+            '>' -> k += 1
+            '<' -> k -= 1
+            ' ' -> list[k]
+            '[' -> {
+                if (list[k] == 0) {
+                    var c = 1
+                    while (c != 0) {
+                        i += 1
+                        if (commands[i] == '[') c += 1
+                        else if (commands[i] == ']') c -= 1
+                    }
+                }
+            }
+            ']' -> {
+                if (list[k] != 0) {
+                    var c = 1
+                    while (c != 0) {
+                        i -= 1
+                        if (commands[i] == '[') c -= 1
+                        else if (commands[i] == ']') c += 1
+                    }
+                }
+            }
+        }
+        i += 1
+        index += 1
+    }
+    return list
+}
