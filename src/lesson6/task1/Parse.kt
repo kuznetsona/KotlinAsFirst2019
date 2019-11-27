@@ -77,9 +77,9 @@ fun dateStrToDigit(str: String): String? {
     val element = list[0].toInt()
     if (list.size == 3 && element in 1..31) {
         if (list[1] == "января") {
-            res = String.format("%02d", element) + ".01."
+            res = String.format("%02d", element) + ".01." + list[2]
         } else if (list[1] == " февряля" && element <= 29) {
-            res = String.format("%02d", element)+ ".02." + list[2]
+            res = String.format("%02d", element) + ".02." + list[2]
         } else if (list[1] == "марта") {
             res = String.format("%02d", element) + ".03." + list[2]
         } else if (list[1] == "апреля" && element <= 30) {
@@ -123,8 +123,19 @@ fun dateDigitToStr(digital: String): String {
                 list[1] == "01" -> {
                     String.format("%s", element) + " января " + list[2]
                 }
-                list[1] == "02" && element <= 28 -> {
-                    String.format("%s", element) + " февраля " + list[2]
+                list[1] == "02" && element <= 29 -> {
+                    if (element <= 29) {
+                        val year = list[2].toInt()
+                        when {
+                            year % 4 == 0 && year % 100 != 0 && element == 29 -> {
+                                "29" + " февраля " + list[2]
+                            }
+                            year % 400 == 0 && element == 29 -> {
+                                "29" + " февраля " + list[2]
+                            }
+                            else -> ""
+                        }
+                    } else String.format("%s", element) + " февраля " + list[2]
                 }
                 list[1] == "03" -> {
                     String.format("%s", element) + " марта " + list[2]
@@ -157,7 +168,7 @@ fun dateDigitToStr(digital: String): String {
                     String.format("%s", element) + " декабря " + list[2]
                 }
                 else -> ""
-            }
+            } as String
         } else res = ""
         return res
     } catch (e: Exception) {
@@ -179,7 +190,7 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String {
+fun flattenPhoneNumber(phone: String): String { TODO() /*
     val list = phone.split("").toMutableList()
     return try {
         for (i in 0 until list.size) {
@@ -191,7 +202,7 @@ fun flattenPhoneNumber(phone: String): String {
         list.joinToString(separator = "")
     } catch (e: Exception) {
         ""
-    }
+    } */
 }
 
 /**

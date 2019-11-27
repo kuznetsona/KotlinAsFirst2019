@@ -119,11 +119,11 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var counter = 0
+    var counter = 0.0
     for (i in 0 until v.size) {
-        counter += v[i].pow(2.0).toInt()
+        counter += v[i].pow(2.0)
     }
-    return sqrt(counter.toDouble())
+    return sqrt(counter)
 }
 
 /**
@@ -408,8 +408,14 @@ fun russian(n: Int): String {
         str += russian0(n / 1000, k)
 
         str += when {
-            n / 1000 % 10 == 1 -> " тысяча"
-            n / 1000 % 10 in 2..4 -> " тысячи"
+            n / 1000 % 10 == 1 -> {
+                if (n / 10000 % 10 != 1) " тысяча"
+                else " тысяч"
+            }
+            n / 1000 % 10 in 2..4 -> {
+                if (n / 10000 % 10 != 1) " тысячи"
+                else " тысяч"
+            }
             else -> " тысяч"
         }
         p = n % 1000

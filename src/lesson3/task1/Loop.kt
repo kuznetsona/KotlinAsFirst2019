@@ -111,7 +111,7 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     val a = min(m, n)
     val b = max(m, n)
-    for (i in b..b * a)
+    for (i in b..b * a step b)
         if (i % m == 0 && i % n == 0) return i
     return a * b
 }
