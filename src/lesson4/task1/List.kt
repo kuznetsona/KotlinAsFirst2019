@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.digitNumber
 import lesson3.task1.revert
 import kotlin.math.abs
 import kotlin.math.pow
@@ -120,8 +121,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var counter = 0.0
-    for (i in 0 until v.size) {
-        counter += v[i].pow(2.0)
+    for (i in v) {
+        counter += i.pow(2.0)
     }
     return sqrt(counter)
 }
@@ -134,8 +135,8 @@ fun abs(v: List<Double>): Double {
 fun mean(list: List<Double>): Double {
     var counter = 0.0
     if (list.isEmpty()) return 0.0
-    for (i in 0 until list.size) {
-        counter += list[i]
+    for (i in list) {
+        counter += i
     }
     return (counter / list.size)
 }
@@ -182,13 +183,13 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Значение пустого многочлена равно 0 при любом x.
  */
 fun polynom(p: List<Int>, x: Int): Int {
-    return if (p.isNotEmpty()) {
-        var px = p[0]
-        for (i in 1 until p.size) {
-            px += p[i] * (x.toDouble().pow(i)).toInt()
-        }
-        px
-    } else 0
+    var px = 0
+    var i = 0
+    for (element in p) {
+        px += element * (x.toDouble().pow(i)).toInt()
+        i += 1
+    }
+    return px
 }
 
 /**
@@ -202,14 +203,13 @@ fun polynom(p: List<Int>, x: Int): Int {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    return if (list.size != 0) {
-        var counter = list[0]
-        for (i in 1 until list.size) {
-            counter += list[i]
-            list[i] = counter
-        }
-        list
-    } else list
+    var counter = 0
+    for (i in 0 until list.size) {
+        counter += list[i]
+        list[i] = counter
+    }
+    return list
+
 }
 
 /**
@@ -222,13 +222,13 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
 fun factorize(n: Int): List<Int> {
     val list = mutableListOf<Int>()
     var n1 = n
-    for (i in 2..n1) {
-        if (n1 % i == 0) {
-            while (n1 % i == 0) {
-                list.add(i)
-                n1 /= i
-            }
+    var i = 2
+    while (n1 > 1) {
+        while (n1 % i == 0) {
+            list.add(i)
+            n1 /= i
         }
+        i += 1
     }
 
     return list
@@ -315,8 +315,10 @@ fun decimalFromString(str: String, base: Int): Int {
     var c = 0
     for (i in 0 until str.length) {
         c += if (str[i].toInt() in 97..122) {
-            base.toDouble().pow(str.length - i - 1.toDouble()).toInt() * (str[i].toInt() - 87)
-        } else base.toDouble().pow(str.length - i - 1.toDouble()).toInt() * (str[i].toInt() - 48)
+            base.toDouble().pow(str.length - i - 1.toDouble()).toInt() * (str[i].toInt() - 'a'.toInt() + 10)
+        } else {
+            base.toDouble().pow(str.length - i - 1.toDouble()).toInt() * (str[i].toInt() - '0'.toInt())
+        }
     }
     return c
 }
@@ -332,57 +334,15 @@ fun decimalFromString(str: String, base: Int): Int {
 fun roman(n: Int): String {
     var n1 = n
     var str = ""
-    while (n1 >= 1000) {
-        str += "M"
-        n1 = abs(n1 - 1000)
-    }
-    if (n1 - 900 >= 0) {
-        str += "CM"
-        n1 -= 900
-    }
-    if (n1 - 500 >= 0) {
-        str += "D"
-        n1 -= 500
-    }
-    if (n1 - 400 >= 0) {
-        str += "CD"
-        n1 -= 400
-    }
-    while (n1 >= 100) {
-        str += "C"
-        n1 = abs(n1 - 100)
-    }
-    if (n1 - 90 >= 0) {
-        str += "XC"
-        n1 -= 90
-    }
-    if (n1 - 50 >= 0) {
-        str += "L"
-        n1 -= 50
-    }
-    if (n1 - 40 >= 0) {
-        str += "XL"
-        n1 -= 40
-    }
-    while (n1 >= 10) {
-        str += "X"
-        n1 = abs(n1 - 10)
-    }
-    if (n1 - 9 >= 0) {
-        str += "IX"
-        n1 -= 9
-    }
-    if (n1 - 5 >= 0) {
-        str += "V"
-        n1 -= 5
-    }
-    if (n1 - 4 >= 0) {
-        str += "IV"
-        n1 -= 4
-    }
-    while (n1 >= 1) {
-        str += "I"
-        n1 = abs(n1 - 1)
+    var i = 12
+    val roman = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val element = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    while (n1 > 0) {
+        while (n1 >= element[i]) {
+            str += roman[i]
+            n1 -= element[i]
+        }
+        i -= 1
     }
     return str
 }
@@ -399,23 +359,13 @@ fun russian(n: Int): String {
     var p = n
     var str = ""
     var number = n
-    do {
-        k++
-        number /= 10
-    } while (number != 0)
-
+    k = digitNumber(n)
     if (k > 3) {
         str += russian0(n / 1000, k)
 
         str += when {
-            n / 1000 % 10 == 1 -> {
-                if (n / 10000 % 10 != 1) " тысяча"
-                else " тысяч"
-            }
-            n / 1000 % 10 in 2..4 -> {
-                if (n / 10000 % 10 != 1) " тысячи"
-                else " тысяч"
-            }
+            n / 1000 % 10 == 1 && n / 10000 % 10 != 1 -> " тысяча"
+            n / 1000 % 10 in 2..4 && n / 10000 % 10 != 1 -> " тысячи"
             else -> " тысяч"
         }
         p = n % 1000
@@ -426,13 +376,8 @@ fun russian(n: Int): String {
 }
 
 fun russian0(p: Int, k: Int): String {
-    var counter = 0
-    var p1 = p
+    val counter = digitNumber(p)
     var str = ""
-    do {
-        counter++
-        p1 /= 10
-    } while (p1 != 0)
     if (counter == 3 && p / 100 != 0) {
         str += russian100(p / 100)
     }
@@ -444,7 +389,9 @@ fun russian0(p: Int, k: Int): String {
             str += if (k > 3) russian01(p % 10)
             else russian1(p % 10)
         }
-    } else str += russian1019(p % 100)
+    } else {
+        str += russian1019(p % 100)
+    }
     return str
 }
 
