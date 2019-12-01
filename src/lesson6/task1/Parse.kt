@@ -359,6 +359,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     for (i in 0 until cells) list.add(0)
     var i = 0
     var index = 0
+    check((k != 0 || !commands.matches(Regex("""[><]*"""))))
     while (i != commands.length && index != limit) {
         if (k == -1 || k == list.size) throw IllegalStateException()
         when (commands[i]) {

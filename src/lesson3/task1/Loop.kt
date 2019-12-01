@@ -146,10 +146,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     var a = m
     var b = n
     while (a != b) {
-        when {
-            a < b -> b = (b - a)
-            else -> a = (a - b)
-        }
+        if (a < b) b = (b - a)
+        else a = (a - b)
     }
     return b == 1
 }
@@ -261,7 +259,7 @@ fun hasDifferentDigits(n: Int): Boolean {
     var n1 = n
     val n2 = n1 % 10
     for (i in 1 until c) {
-        if (n1 % 10 != n2) break
+        if (n1 % 10 != n2) return n1 != n2
         n1 /= 10
     }
     return n1 != n2
@@ -308,7 +306,6 @@ fun fibSequenceDigit(n: Int): Int {
     }
     return sequenceDigit(n, k, c)
 }
-fun sequenceDigit(n: Int, k: Int, c: Int): Int {
-    return if (c == n) k % 10
-    else k / 10.0.pow(c - n).toInt() % 10
-}
+
+fun sequenceDigit(n: Int, k: Int, c: Int): Int =
+    k / 10.0.pow(c - n).toInt() % 10
