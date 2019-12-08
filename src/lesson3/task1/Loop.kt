@@ -227,9 +227,11 @@ fun revert(n: Int): Int {
     val c = digitNumber(n) - 1
     var n2 = n
     var n3 = 0
+    var counter = 10.0.pow(c).toInt()
     for (i in 0..c) {
         val n1 = n2 % 10
-        n3 += n1 * 10.0.pow(c - i).toInt()
+        n3 += n1 * counter
+        counter /= 10
         n2 /= 10
     }
     return n3
@@ -259,7 +261,7 @@ fun hasDifferentDigits(n: Int): Boolean {
     var n1 = n
     val n2 = n1 % 10
     for (i in 1 until c) {
-        if (n1 % 10 != n2) return n1 != n2
+        if (n1 % 10 != n2) return true
         n1 /= 10
     }
     return n1 != n2

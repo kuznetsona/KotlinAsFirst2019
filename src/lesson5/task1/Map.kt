@@ -94,7 +94,7 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     val res = mutableMapOf<Int, MutableList<String>>()
     for ((key, value) in grades) {
-        if (res[value] != null) res[value]?.add(key)
+        if (res[value] != null) res[value]!!.add(key)
         else res[value] = mutableListOf(key)
     }
     return res
@@ -111,11 +111,10 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    var c = 0
     for ((key) in a) {
-        if (a[key] == b[key]) c += 1
+        return a[key] == b[key]
     }
-    return c == a.size
+    return false
 }
 
 /**
@@ -165,13 +164,12 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = (a.toSet().in
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val res = mutableMapOf<String, String>()
-    res.putAll(mapB + mapA)
-    for ((key1, value1) in mapB)
-        for ((key2, value2) in mapA)
-            if (key1 == key2 && value2 != value1) {
-                res[key2] = """${res[key2]}, $value1"""
-            }
+    val res = (mapB + mapA).toMutableMap()
+    for ((key, value) in mapB)
+        if (key in mapA && value != mapA[key]) {
+            res[key] = """${res[key]}, $value"""
+        }
+
     return res
 }
 
@@ -186,17 +184,13 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    val res = mutableMapOf<String, Double>()
     val res2 = mutableMapOf<String, MutableList<Double>>()
     val res3 = mutableMapOf<String, Double>()
-    var counter = 0.0
-    res += stockPrices
-    for ((key, value) in res)
-        if (res2[key] != null) res2[key]?.add(value)
+    for ((key, value) in stockPrices)
+        if (res2[key] != null) res2[key]!!.add(value)
         else res2[key] = mutableListOf(value)
     for ((key, value) in res2) {
-        for (i in 0..value.size + 1) counter += value[i]
-        res3[key] = counter / value.size
+        res3[key] = value.sum() / value.size
     }
     return res3
 }
@@ -217,16 +211,15 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
-    var counter = 9999999999.9
-    var res = ""
+    var counter = 0.0
+    var res: String? = null
     for ((key, value) in stuff) {
-        if (kind == value.first && counter > value.second) {
+        if (value.first == kind && (value.second < counter || counter == 0.0)) {
             counter = value.second
             res = key
         }
     }
-    return if (res != "") res
-    else null
+    return res
 }
 
 /**
@@ -239,9 +232,12 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    val word1 = word.toSet()
-    val chars1 = chars.toSet()
-    return word1 == chars1
+    val chars1 = chars.toString().toLowerCase().toSet()
+    val word1 = word.toLowerCase().toSet()
+    var counter = 0
+    for (element in word1)
+        if (element in chars1) counter += 1
+    return word1.size == counter
 }
 
 /**
@@ -343,4 +339,13 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> { TODO() /*
+    var m = 0
+    var c = 0
+    var table: Array<Array<Int>> = Array(capacity, { Array(treasures.size, {0}) })
+    for (i in 1..treasures.size) {
+        for (x in 1..capacity) {
+            table[x][i] = max(table[x - m][i - 1] + c, table[x][i - 1])
+        }
+    }*/
+}

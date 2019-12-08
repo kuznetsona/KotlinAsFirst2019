@@ -93,8 +93,7 @@ fun dateStrToDigit(str: String): String? {
             } else if (element in 1..28) {
                 res = String.format("%02d", element) + ".02." + list[2]
             }
-        }
-            else if (list[1] == "марта") {
+        } else if (list[1] == "марта") {
             res = String.format("%02d", element) + ".03." + list[2]
         } else if (list[1] == "апреля" && element <= 30) {
             res = String.format("%02d", element) + ".04." + list[2]
@@ -105,7 +104,7 @@ fun dateStrToDigit(str: String): String? {
         } else if (list[1] == "июля") {
             res = String.format("%02d", element) + ".07." + list[2]
         } else if (list[1] == "августа") {
-            res = String.format("%02d", element) + "08." + list[2]
+            res = String.format("%02d", element) + ".08." + list[2]
         } else if (list[1] == "сентября" && element <= 30) {
             res = String.format("%02d", element) + ".09." + list[2]
         } else if (list[1] == "октября") {
@@ -140,7 +139,7 @@ fun dateDigitToStr(digital: String): String {
                     String.format("%s", element) + " января " + list[2]
                 }
                 list[1] == "02" && element <= 29 -> {
-                    if (element <= 29) {
+                    if (element == 29) {
                         val year = list[2].toInt()
                         when {
                             year % 4 == 0 && year % 100 != 0 && element == 29 -> {
@@ -151,7 +150,9 @@ fun dateDigitToStr(digital: String): String {
                             }
                             else -> ""
                         }
-                    } else String.format("%s", element) + " февраля " + list[2]
+                    } else {
+                        String.format("%s", element) + " февраля " + list[2]
+                    }
                 }
                 list[1] == "03" -> {
                     String.format("%s", element) + " марта " + list[2]

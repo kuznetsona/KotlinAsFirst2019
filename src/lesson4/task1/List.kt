@@ -150,7 +150,6 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.size == 0) return list
     val mean = mean(list)
     for (i in 0 until list.size) {
         list[i] -= mean
@@ -183,13 +182,15 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Значение пустого многочлена равно 0 при любом x.
  */
 fun polynom(p: List<Int>, x: Int): Int {
-    var px = 0
+    var px = 0.0
     var i = 0
+    var power = x.toDouble().pow(i)
     for (element in p) {
-        px += element * (x.toDouble().pow(i)).toInt()
+        px += element * power
+        power *= x
         i += 1
     }
-    return px
+    return px.toInt()
 }
 
 /**
@@ -293,8 +294,10 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var n = digits[digits.size - 1]
+    var power = digits.size - 1
     for (i in 0 until digits.size - 1) {
-        n += digits[i] * (base.toDouble().pow(digits.size - i - 1)).toInt()
+        n += digits[i] * (base.toDouble().pow(power)).toInt()
+        power -= 1
     }
     return n
 }
@@ -312,15 +315,15 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * (например, str.toInt(base)), запрещается.
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var c = 0
+    var c = 0.0
     for (i in 0 until str.length) {
         c += if (str[i].toInt() in 97..122) {
-            base.toDouble().pow(str.length - i - 1.toDouble()).toInt() * (str[i].toInt() - 'a'.toInt() + 10)
+            base.toDouble().pow(str.length - i - 1) * (str[i] - 'a' + 10)
         } else {
-            base.toDouble().pow(str.length - i - 1.toDouble()).toInt() * (str[i].toInt() - '0'.toInt())
+            base.toDouble().pow(str.length - i - 1) * (str[i] - '0')
         }
     }
-    return c
+    return c.toInt()
 }
 
 /**
@@ -451,6 +454,7 @@ fun russian1019(p: Int): String {
     }
     return str
 }
+
 fun russian01(p: Int): String {
     var str = ""
     str += when (p) {
