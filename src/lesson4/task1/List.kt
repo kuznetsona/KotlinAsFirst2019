@@ -294,10 +294,10 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var n = digits[digits.size - 1]
-    var power = digits.size - 1
+    var power = (base.toDouble().pow(digits.size - 1)).toInt()
     for (i in 0 until digits.size - 1) {
-        n += digits[i] * (base.toDouble().pow(power)).toInt()
-        power -= 1
+        n += digits[i] * power
+        power /= base
     }
     return n
 }
@@ -316,12 +316,11 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     var c = 0.0
+    var power = (base.toDouble().pow(str.length - 1)).toInt()
     for (i in 0 until str.length) {
-        c += if (str[i].toInt() in 97..122) {
-            base.toDouble().pow(str.length - i - 1) * (str[i] - 'a' + 10)
-        } else {
-            base.toDouble().pow(str.length - i - 1) * (str[i] - '0')
-        }
+        c += if (str[i].toInt() in 97..122) power * (str[i] - 'a' + 10)
+        else power * (str[i] - '0')
+        power /= base
     }
     return c.toInt()
 }

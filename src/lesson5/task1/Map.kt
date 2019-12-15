@@ -252,13 +252,10 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> { TODO() /*
+fun extractRepeats(list: List<String>): Map<String, Int> {
     val res = mutableMapOf<String, Int>()
-    for (i in 0..list.size) {
-        if (res[i] != null) res[i] = res.getOrDefault(i, )
-        else res[i] = mutableListOf(key)
-    }
-    return res*/
+    for (i in list) res[i] = res.getOrDefault(i, 0) + 1
+    return res.filterValues { it != 1 }
 }
 
 
@@ -271,7 +268,14 @@ fun extractRepeats(list: List<String>): Map<String, Int> { TODO() /*
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {TODO() /*
+    for (i in words) {
+        for (element in i) {
+            if (i[element] == )
+        }
+    }
+    return false */
+}
 
 /**
  * Сложная
@@ -297,7 +301,13 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> { TODO() /*
+    var res = friends.toMutableMap()
+    for ((key, value) in friends) {
+        if (res[value] )
+
+    }*/
+}
 
 /**
  * Сложная
@@ -316,7 +326,16 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    if (list.isEmpty()) return Pair(-1, -1)
+    for (element in 0..list.size - 2) {
+        var j = element + 1
+        for (i in j until list.size) {
+            if (list[element] + list[i] == number) return Pair(element, i)
+        }
+    }
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная
