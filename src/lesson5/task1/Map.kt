@@ -112,9 +112,9 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     for ((key) in a) {
-        return a[key] == b[key]
+        if (a[key] != b[key]) return false
     }
-    return false
+    return true
 }
 
 /**
@@ -329,7 +329,7 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     if (list.isEmpty()) return Pair(-1, -1)
     for (element in 0..list.size - 2) {
-        var j = element + 1
+        val j = element + 1
         for (i in j until list.size) {
             if (list[element] + list[i] == number) return Pair(element, i)
         }

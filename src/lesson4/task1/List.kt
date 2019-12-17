@@ -166,7 +166,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Int>, b: List<Int>): Int {
     var c = 0
-    for (i in 0 until a.size) {
+    for (i in a.indices) {
         c += a[i] * b[i]
     }
     return c
@@ -278,7 +278,7 @@ fun convertToString(n: Int, base: Int): String {
     val list = convert(n, base)
     val a = "abcdefghijklmnopqrstuvwxyz"
     var str = ""
-    for (i in 0 until list.size) {
+    for (i in list.indices) {
         if (list[i] > 9) str += a[list[i] - 10]
         else str += list[i]
     }
@@ -317,7 +317,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     var c = 0.0
     var power = (base.toDouble().pow(str.length - 1)).toInt()
-    for (i in 0 until str.length) {
+    for (i in str.indices) {
         c += if (str[i].toInt() in 97..122) power * (str[i] - 'a' + 10)
         else power * (str[i] - '0')
         power /= base

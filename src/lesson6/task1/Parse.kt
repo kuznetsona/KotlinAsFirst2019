@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
 import java.lang.Exception
 
 /**
@@ -75,46 +76,19 @@ fun dateStrToDigit(str: String): String? {
     val list = str.split(" ")
     var res = ""
     val element = list[0].toInt()
-    if (list.size == 3 && element in 1..31) {
-        if (list[1] == "января") {
-            res = String.format("%02d", element) + ".01." + list[2]
-        } else if (list[1] == "февраля") {
-            if (element == 29) {
-                val year = list[2].toInt()
-                when {
-                    year % 4 == 0 && year % 100 != 0 -> {
-                        res = String.format("%02d", element) + ".02." + list[2]
-                    }
-                    year % 400 == 0 -> {
-                        res = String.format("%02d", element) + ".02." + list[2]
-                    }
-                    else -> ""
+    val date = listOf<String>("", "января", "февраля", "марта", "апреля", "мая",
+        "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    if (list.size == 3) {
+        for (i in date.indices) {
+            if (date[i] == list[1]) {
+                val month = daysInMonth(i, list[2].toInt())
+                if (list[0].toInt() <= month) {
+                    res = String.format("%02d", element) + "." + String.format("%02d", i) + "." + list[2]
+                    return res
                 }
-            } else if (element in 1..28) {
-                res = String.format("%02d", element) + ".02." + list[2]
             }
-        } else if (list[1] == "марта") {
-            res = String.format("%02d", element) + ".03." + list[2]
-        } else if (list[1] == "апреля" && element <= 30) {
-            res = String.format("%02d", element) + ".04." + list[2]
-        } else if (list[1] == "мая") {
-            res = String.format("%02d", element) + ".05." + list[2]
-        } else if (list[1] == "июня" && element <= 30) {
-            res = String.format("%02d", element) + ".06." + list[2]
-        } else if (list[1] == "июля") {
-            res = String.format("%02d", element) + ".07." + list[2]
-        } else if (list[1] == "августа") {
-            res = String.format("%02d", element) + ".08." + list[2]
-        } else if (list[1] == "сентября" && element <= 30) {
-            res = String.format("%02d", element) + ".09." + list[2]
-        } else if (list[1] == "октября") {
-            res = list[0] + ".10." + list[2]
-        } else if (list[1] == "ноября" && element <= 30) {
-            res = list[0] + ".11." + list[2]
-        } else if (list[1] == "декабря") {
-            res = list[0] + ".12." + list[2]
         }
-    } else return ""
+    }
     return res
 }
 
@@ -129,64 +103,17 @@ fun dateStrToDigit(str: String): String? {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    val list = digital.split(".")
-    val res: String
+    var res = ""
     try {
+        val list = digital.split(".")
+        val date = listOf<String>(" января ", " февраля ", " марта ", " апреля ", " мая ",
+            " июня ", " июля ", " августа ", " сентября ", " октября ", " ноября ", " декабря ")
         val element = list[0].toInt()
-        if (list.size == 3 && list[0].toInt() in 1..31) {
-            res = when {
-                list[1] == "01" -> {
-                    String.format("%s", element) + " января " + list[2]
-                }
-                list[1] == "02" && element <= 29 -> {
-                    if (element == 29) {
-                        val year = list[2].toInt()
-                        when {
-                            year % 4 == 0 && year % 100 != 0 && element == 29 -> {
-                                "29" + " февраля " + list[2]
-                            }
-                            year % 400 == 0 && element == 29 -> {
-                                "29" + " февраля " + list[2]
-                            }
-                            else -> ""
-                        }
-                    } else {
-                        String.format("%s", element) + " февраля " + list[2]
-                    }
-                }
-                list[1] == "03" -> {
-                    String.format("%s", element) + " марта " + list[2]
-                }
-                list[1] == "04" && element <= 30 -> {
-                    String.format("%s", element) + " апреля " + list[2]
-                }
-                list[1] == "05" -> {
-                    String.format("%s", element) + " мая " + list[2]
-                }
-                list[1] == "06" && element <= 30 -> {
-                    String.format("%s", element) + " июня " + list[2]
-                }
-                list[1] == "07" -> {
-                    String.format("%s", element) + " июля " + list[2]
-                }
-                list[1] == "08" -> {
-                    String.format("%s", element) + " августа " + list[2]
-                }
-                list[1] == "09" && element <= 30 -> {
-                    String.format("%s", element) + " сентября " + list[2]
-                }
-                list[1] == "10" -> {
-                    String.format("%s", element) + " октября " + list[2]
-                }
-                list[1] == "11" && element <= 30 -> {
-                    String.format("%s", element) + " ноября " + list[2]
-                }
-                list[1] == "12" -> {
-                    String.format("%s", element) + " декабря " + list[2]
-                }
-                else -> ""
-            } as String
-        } else res = ""
+        val month = list[1].toInt()
+        if (list.size == 3 && month in 1..12) {
+            val monthsize = daysInMonth(month, list[2].toInt())
+            if (list[0].toInt() <= monthsize) res = element.toString() + date[month - 1] + list[2]
+        }
         return res
     } catch (e: Exception) {
         return ""
@@ -236,7 +163,7 @@ fun bestLongJump(jumps: String): Int {
     val list = jumps.split(" ")
     var max = 0
     return try {
-        for (i in 0 until list.size) {
+        for (i in list.indices) {
             if (list[i] == "-" || list[i] == "%") continue
             else if (list[i].toInt() > max) max = list[i].toInt()
         }
@@ -368,7 +295,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     val list = mutableListOf<Int>()
     var k = cells / 2
     var l = 0
-    for (i in 0 until commands.length) {
+    for (i in commands.indices) {
         if (commands[i] == '[') l += 1
         else if (commands[i] == ']') l -= 1
     }
@@ -390,8 +317,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
                     var c = 1
                     while (c != 0) {
                         i += 1
-                        if (commands[i] == '[') c += 1
-                        else if (commands[i] == ']') c -= 1
+                        c = computeDeviceCells1(commands[i], c)
                     }
                 }
             }
@@ -400,8 +326,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
                     var c = 1
                     while (c != 0) {
                         i -= 1
-                        if (commands[i] == '[') c -= 1
-                        else if (commands[i] == ']') c += 1
+                        c = computeDeviceCells1(commands[i], c)
                     }
                 }
             }
@@ -410,4 +335,11 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
         index += 1
     }
     return list
+}
+
+fun computeDeviceCells1(str: Char, c1: Int): Int {
+    var c = c1
+    if (str == '[') c -= 1
+    else if (str == ']') c += 1
+    return c
 }
