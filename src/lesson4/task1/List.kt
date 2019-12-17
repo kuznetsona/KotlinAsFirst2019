@@ -293,6 +293,7 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
+
     var n = digits[digits.size - 1]
     var power = (base.toDouble().pow(digits.size - 1)).toInt()
     for (i in 0 until digits.size - 1) {
