@@ -344,9 +344,9 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     return list
 }
 
-fun computeDeviceCells1(str: Char, c1: Int, commands: String, i: Int): Int {
+/*fun computeDeviceCells1(str: Char, c1: Int, commands: String, i: Int): Int {
     var c = c1
     if (commands[i] == '[') c -= 1
     else if (commands[i] == ']') c += 1
     return c
-}
+}*/
