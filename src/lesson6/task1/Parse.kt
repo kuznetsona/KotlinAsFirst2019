@@ -109,25 +109,23 @@ fun dateStrToDigit(str: String): String? {
  */
 fun dateDigitToStr(digital: String): String {
     var res = ""
+    val list = digital.split(".")
+    val date = listOf(
+        " января ", " февраля ", " марта ", " апреля ",
+        " мая ", " июня ", " июля ", " августа ", " сентября ",
+        " октября ", " ноября ", " декабря "
+    )
     try {
-        val list = digital.split(".")
-        val date = listOf(
-            " января ", " февраля ", " марта ", " апреля ",
-            " мая ", " июня ", " июля ", " августа ", " сентября ",
-            " октября ", " ноября ", " декабря "
-        )
         val element = list[0].toInt()
         val month = list[1].toInt()
         if (list.size == 3 && month in 1..12) {
             val monthsize = daysInMonth(month, list[2].toInt())
             if (list[0].toInt() <= monthsize)
                 res = element.toString() + date[month - 1] + list[2]
-
         }
-        return res
     } catch (e: Exception) {
-        return ""
     }
+    return res
 }
 
 /**
