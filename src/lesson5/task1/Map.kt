@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import kotlinx.html.P
 import lesson6.task1.firstDuplicateIndex
 
 /**
@@ -233,7 +234,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean { TODO() /*
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    TODO() /*
     val chars1 = chars.toString().toLowerCase().toSet()
     val word1 = word.toLowerCase().toSet()
     var counter = 0
@@ -271,7 +273,8 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean {TODO() /*
+fun hasAnagrams(words: List<String>): Boolean {
+    TODO() /*
     for (i in words) {
         for (element in i) {
             if (i[element] == )
@@ -304,7 +307,8 @@ fun hasAnagrams(words: List<String>): Boolean {TODO() /*
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> { TODO() /*
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    TODO() /*
     var res = friends.toMutableMap()
     for ((key, value) in friends) {
         if (res[value] )
@@ -332,10 +336,10 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     if (list.isEmpty()) return Pair(-1, -1)
     val set = mutableSetOf<Int>()
-    for (element in 0..list.size - 2) {
-        set.add(list[element])
-        val c = number - list[element]
-        if (list.contains(c) && element != list.indexOf(c)) return Pair(element, list.indexOf(c))
+    for (element in list.indices) {
+        set.add(number - list[element])
+        if (set.contains(list[element]) && set.indexOf(list[element]) != element)
+            return Pair(set.indexOf(list[element]), element)
     }
     return Pair(-1, -1)
 }
@@ -361,7 +365,8 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> { TODO() /*
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    TODO() /*
     var m = 0
     var c = 0
     var table: Array<Array<Int>> = Array(capacity, { Array(treasures.size, {0}) })
