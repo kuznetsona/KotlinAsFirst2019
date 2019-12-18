@@ -335,7 +335,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     for (element in 0..list.size - 2) {
         set.add(list[element])
         val c = number - list[element]
-        if (list.contains(c)) return Pair(element, list.indexOf(c))
+        if (list.contains(c) && element != list.indexOf(c)) return Pair(element, list.indexOf(c))
     }
     return Pair(-1, -1)
 }
