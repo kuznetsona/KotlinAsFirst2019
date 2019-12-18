@@ -4,6 +4,7 @@ package lesson6.task1
 
 import lesson2.task2.daysInMonth
 import java.lang.Exception
+import kotlin.math.pow
 
 /**
  * Пример
@@ -308,7 +309,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     }
     if (l != 0) throw IllegalArgumentException()
     for (i in 0 until cells) list.add(0)
-    if (commands == "") return list
+    if (commands == "" || commands == ">" || commands == "<") return list
     var i = 0
     var index = 0
     while (i != commands.length && index != limit) {
@@ -320,24 +321,10 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
             '<' -> k -= 1
             ' ' -> list[k]
             '[' -> {
-                if (list[k] == 0) {
-                    var c = 1
-                    while (c != 0) {
-                        i += 1
-                        if (commands[i] == '[') c += 1
-                        else if (commands[i] == ']') c -= 1
-                    }
-                }
+                if (list[k] == 0) i = computeDeviceCells1(commands, i, 2)
             }
             ']' -> {
-                if (list[k] != 0) {
-                    var c = 1
-                    while (c != 0) {
-                        i -= 1
-                        if (commands[i] == '[') c -= 1
-                        else if (commands[i] == ']') c += 1
-                    }
-                }
+                if (list[k] != 0) i = computeDeviceCells1(commands, i, 1)
             }
         }
         i += 1
@@ -345,4 +332,15 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
         if (k < 0 || k > cells) throw IllegalStateException()
     }
     return list
+}
+
+fun computeDeviceCells1(commands: String, i1: Int, power: Int): Int {
+    var c = 1
+    var i = i1
+    while (c != 0) {
+        i += (-1.0).pow(power).toInt()
+        if (commands[i] == '[') c += (-1.0).pow(power).toInt()
+        else if (commands[i] == ']') c += (-1.0).pow(power + 1).toInt()
+    }
+    return i
 }
