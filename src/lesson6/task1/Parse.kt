@@ -76,13 +76,13 @@ fun main() {
 fun dateStrToDigit(str: String): String? {
     val list = str.split(" ")
     var res = ""
-    val element = list[0].toInt()
     val date = listOf(
         "", "января", "февраля", "марта", "апреля",
         "мая", "июня", "июля", "августа", "сентября",
         "октября", "ноября", "декабря"
     )
     if (list.size == 3) {
+        val element = list[0].toInt()
         for (i in date.indices) {
             if (date[i] == list[1]) {
                 val month = daysInMonth(i, list[2].toInt())
