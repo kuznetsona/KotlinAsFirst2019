@@ -295,6 +295,7 @@ fun fromRoman(roman: String): Int = TODO()
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
+@Throws(IllegalArgumentException::class)
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     require(commands.matches(Regex("""[+\-\]\[\s><]*""")))
     val list = mutableListOf<Int>()
@@ -306,9 +307,9 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     }
     if (l != 0) throw IllegalArgumentException()
     for (i in 0 until cells) list.add(0)
+    if (commands == "") return list
     var i = 0
     var index = 0
-    check((k != 0 || !commands.matches(Regex("""[><]*"""))))
     while (i != commands.length && index != limit) {
         if (k == -1 || k == list.size) throw IllegalStateException()
         when (commands[i]) {
@@ -340,13 +341,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
         }
         i += 1
         index += 1
+        if (k < 0 || k > cells) throw IllegalStateException()
     }
     return list
 }
-
-/*fun computeDeviceCells1(str: Char, c1: Int, commands: String, i: Int): Int {
-    var c = c1
-    if (commands[i] == '[') c -= 1
-    else if (commands[i] == ']') c += 1
-    return c
-}*/
