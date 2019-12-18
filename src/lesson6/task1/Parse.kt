@@ -76,8 +76,10 @@ fun dateStrToDigit(str: String): String? {
     val list = str.split(" ")
     var res = ""
     val element = list[0].toInt()
-    val date = listOf<String>("", "января", "февраля", "марта", "апреля", "мая",
-        "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val date = listOf<String>(
+        "", "января", "февраля", "марта", "апреля", "мая",
+        "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    )
     if (list.size == 3) {
         for (i in date.indices) {
             if (date[i] == list[1]) {
@@ -106,8 +108,10 @@ fun dateDigitToStr(digital: String): String {
     var res = ""
     try {
         val list = digital.split(".")
-        val date = listOf<String>(" января ", " февраля ", " марта ", " апреля ", " мая ",
-            " июня ", " июля ", " августа ", " сентября ", " октября ", " ноября ", " декабря ")
+        val date = listOf<String>(
+            " января ", " февраля ", " марта ", " апреля ", " мая ",
+            " июня ", " июля ", " августа ", " сентября ", " октября ", " ноября ", " декабря "
+        )
         val element = list[0].toInt()
         val month = list[1].toInt()
         if (list.size == 3 && month in 1..12) {
@@ -134,7 +138,8 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String { TODO() /*
+fun flattenPhoneNumber(phone: String): String {
+    TODO() /*
     val list = phone.split("").toMutableList()
     return try {
         for (i in 0 until list.size) {
@@ -161,19 +166,19 @@ fun flattenPhoneNumber(phone: String): String { TODO() /*
  */
 fun bestLongJump(jumps: String): Int {
     val list = jumps.split(" ")
-    var max = 0
-    return try {
-        for (i in list.indices) {
-            if (list[i] == "-" || list[i] == "%") continue
-            else if (list[i].toInt() > max) max = list[i].toInt()
+    var max = -1
+    var c = 0
+    for (i in list.indices) {
+        if (list[i] == "-" || list[i] == "%") continue
+        try {
+            val res = list[i].toInt()
+            if (res > max) max = res
+        } catch (e: Exception) {
+            c += 1
         }
-        if (max != 0) max
-        else -1
-    } catch (e: Exception) {
-        -1
     }
-
-
+    return if (c != 0) -1
+    else max
 }
 
 /**
@@ -317,7 +322,8 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
                     var c = 1
                     while (c != 0) {
                         i += 1
-                        c = computeDeviceCells1(commands[i], c)
+                        if (commands[i] == '[') c += 1
+                        else if (commands[i] == ']') c -= 1
                     }
                 }
             }
@@ -326,7 +332,8 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
                     var c = 1
                     while (c != 0) {
                         i -= 1
-                        c = computeDeviceCells1(commands[i], c)
+                        if (commands[i] == '[') c -= 1
+                        else if (commands[i] == ']') c += 1
                     }
                 }
             }
@@ -337,9 +344,9 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     return list
 }
 
-fun computeDeviceCells1(str: Char, c1: Int): Int {
+fun computeDeviceCells1(str: Char, c1: Int, commands: String, i: Int): Int {
     var c = c1
-    if (str == '[') c -= 1
-    else if (str == ']') c += 1
+    if (commands[i] == '[') c -= 1
+    else if (commands[i] == ']') c += 1
     return c
 }
