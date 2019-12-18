@@ -77,16 +77,18 @@ fun dateStrToDigit(str: String): String? {
     val list = str.split(" ")
     var res = ""
     val element = list[0].toInt()
-    val date = listOf<String>(
-        "", "января", "февраля", "марта", "апреля", "мая",
-        "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    val date = listOf(
+        "", "января", "февраля", "марта", "апреля",
+        "мая", "июня", "июля", "августа", "сентября",
+        "октября", "ноября", "декабря"
     )
     if (list.size == 3) {
         for (i in date.indices) {
             if (date[i] == list[1]) {
                 val month = daysInMonth(i, list[2].toInt())
                 if (list[0].toInt() <= month) {
-                    res = String.format("%02d", element) + "." + String.format("%02d", i) + "." + list[2]
+                    res = String.format("%02d", element) + "." +
+                            String.format("%02d", i) + "." + list[2]
                     return res
                 }
             }
@@ -109,15 +111,18 @@ fun dateDigitToStr(digital: String): String {
     var res = ""
     try {
         val list = digital.split(".")
-        val date = listOf<String>(
-            " января ", " февраля ", " марта ", " апреля ", " мая ",
-            " июня ", " июля ", " августа ", " сентября ", " октября ", " ноября ", " декабря "
+        val date = listOf(
+            " января ", " февраля ", " марта ", " апреля ",
+            " мая ", " июня ", " июля ", " августа ", " сентября ",
+            " октября ", " ноября ", " декабря "
         )
         val element = list[0].toInt()
         val month = list[1].toInt()
         if (list.size == 3 && month in 1..12) {
             val monthsize = daysInMonth(month, list[2].toInt())
-            if (list[0].toInt() <= monthsize) res = element.toString() + date[month - 1] + list[2]
+            if (list[0].toInt() <= monthsize)
+                res = element.toString() + date[month - 1] + list[2]
+
         }
         return res
     } catch (e: Exception) {
@@ -329,7 +334,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
         }
         i += 1
         index += 1
-        if (k < 0 || k > cells) throw IllegalStateException()
+        if (k < 0 || k >= cells) throw IllegalStateException()
     }
     return list
 }
