@@ -304,6 +304,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     for (i in commands.indices) {
         if (commands[i] == '[') l += 1
         else if (commands[i] == ']') l -= 1
+        if (l == -1) throw IllegalArgumentException()
     }
     if (l != 0) throw IllegalArgumentException()
     for (i in 0 until cells) list.add(0)
