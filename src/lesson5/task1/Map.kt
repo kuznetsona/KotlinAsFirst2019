@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import lesson6.task1.firstDuplicateIndex
+
 /**
  * Пример
  *
@@ -329,11 +331,11 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     if (list.isEmpty()) return Pair(-1, -1)
+    val set = mutableSetOf<Int>()
     for (element in 0..list.size - 2) {
-        val j = element + 1
-        for (i in j until list.size) {
-            if (list[element] + list[i] == number) return Pair(element, i)
-        }
+        set.add(list[element])
+        val c = number - list[element]
+        if (list.contains(c)) return Pair(element, list.indexOf(c))
     }
     return Pair(-1, -1)
 }
