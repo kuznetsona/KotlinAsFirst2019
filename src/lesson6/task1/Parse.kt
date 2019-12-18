@@ -309,7 +309,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     }
     if (l != 0) throw IllegalArgumentException()
     for (i in 0 until cells) list.add(0)
-    if (commands == "" || commands == ">" || commands == "<") return list
+    if (commands == "") return list
     var i = 0
     var index = 0
     while (i != commands.length && index != limit) {
